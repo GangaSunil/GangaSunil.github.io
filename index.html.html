@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#09111c" />
+  <meta name="description" content="Ganga Sunil — Java backend developer in Weimar, building dependable services and a microservices-based e-commerce project. Portfolio in English and German." />
+  <title>Ganga Sunil — Behind the Backend</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: light-dark(#f4f7f8, #09111c);
+      --surface: light-dark(#ffffff, #101b28);
+      --surface-2: light-dark(#eaf0f2, #0d1722);
+      --text: light-dark(#13232d, #eef6f7);
+      --muted: light-dark(#53666f, #a1b4bf);
+      --line: light-dark(#d6e1e3, #253543);
+      --accent: light-dark(#244ed8, #a6b7ff);
+      --accent-soft: light-dark(#e8edff, #202947);
+      --warm: light-dark(#b84d2c, #ffad8c);
+      --shadow: light-dark(0 16px 48px rgba(25, 54, 65, .08), 0 16px 48px rgba(0, 0, 0, .22));
+      --radius: 22px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+    #app { min-height: 100vh; width: 100%; background-color: var(--bg); color: var(--text); overflow: clip; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .wrap { width: min(1120px, calc(100% - 44px)); margin-inline: auto; }
+    .topbar { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid var(--line); background: light-dark(rgba(244,247,248,.9), rgba(9,17,28,.88)); backdrop-filter: blur(18px); }
+    .nav { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 780; letter-spacing: -.04em; white-space: nowrap; }
+     .brand-mark { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 12px; color: light-dark(#ffffff, #08101f); background: var(--accent); font-size: 13px; font-family: var(--mono); font-weight: 900; letter-spacing: -.08em; box-shadow: 0 0 28px light-dark(rgba(36,78,216,.13), rgba(166,183,255,.13)); }
+    .brand-name { font-size: 15px; }
+    .nav-right { display: flex; align-items: center; gap: 23px; }
+    .nav-links { display: flex; align-items: center; gap: 21px; }
+    .nav-links a { color: var(--muted); font-size: 12px; font-weight: 720; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--accent); }
+    .lang-switch { display: inline-flex; padding: 4px; gap: 2px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; }
+    .lang-switch button { padding: 7px 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; font-family: var(--mono); font-size: 11px; font-weight: 800; }
+    .lang-switch button[aria-pressed="true"] { color: light-dark(#ffffff, #08101f); background: var(--accent); }
+    .menu-toggle { display: none; border: 1px solid var(--line); border-radius: 12px; padding: 8px 11px; background: var(--surface); color: var(--text); }
+    .hero { position: relative; padding: 84px 0 64px; }
+    .hero::before { content: ""; position: absolute; pointer-events: none; width: 430px; height: 430px; top: 10px; right: -90px; border-radius: 50%; background: radial-gradient(circle, light-dark(rgba(36,78,216,.13), rgba(166,183,255,.14)) 0%, transparent 68%); filter: blur(10px); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 54px; align-items: center; }
+    .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--accent); font-family: var(--mono); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); animation: pulse 2.4s ease-out infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); } 50% { box-shadow: 0 0 0 8px transparent; } }
+    h1 { max-width: 720px; margin: 22px 0 21px; font-size: clamp(43px, 5.4vw, 72px); letter-spacing: -.067em; line-height: .99; font-weight: 790; }
+    h1 .accent { color: var(--accent); }
+    .hero-copy { max-width: 625px; color: var(--muted); font-size: 17px; line-height: 1.8; }
+    .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 12px 18px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--surface); font-size: 13px; font-weight: 760; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .button:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: light-dark(#ffffff, #08101f); box-shadow: 0 8px 24px light-dark(rgba(36,78,216,.16), rgba(166,183,255,.12)); }
+    .button .arrow { font-size: 17px; line-height: 1; }
+    .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 27px; color: var(--muted); font-size: 12px; }
+    .hero-note span { color: var(--warm); font-weight: 800; }
+    .code-card { position: relative; padding: 22px; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); transform: rotate(1deg); }
+    .code-card::after { content: ""; position: absolute; width: 170px; height: 170px; top: -95px; right: -60px; border: 1px solid var(--line); border-radius: 50%; box-shadow: 0 0 0 25px light-dark(rgba(36,78,216,.03), rgba(166,183,255,.025)), 0 0 0 50px light-dark(rgba(36,78,216,.025), rgba(166,183,255,.018)); pointer-events: none; }
+    .window-bar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+    .window-dots i:first-child { background: #ff8277; }
+    .window-dots i:nth-child(2) { background: #ffcc75; }
+    .window-dots i:nth-child(3) { background: #6ef0cb; }
+    .window-label { color: var(--muted); font: 10px var(--mono); }
+    .code-body { padding: 24px 0 20px; font: 12px/2 var(--mono); }
+    .code-line { display: flex; gap: 15px; white-space: nowrap; }
+    .ln { width: 13px; text-align: right; color: light-dark(#9aa9ad, #4f6573); user-select: none; }
+    .syntax-muted { color: var(--muted); }
+    .syntax-key { color: var(--warm); }
+    .syntax-green { color: var(--accent); }
+    .syntax-blue { color: light-dark(#226da6, #8bc8ff); }
+    .response { margin-top: 15px; padding: 13px 14px; border: 1px solid light-dark(#c4cff9, #343f69); border-radius: 12px; background: var(--accent-soft); }
+    .response-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; font: 10px var(--mono); }
+    .status { color: var(--accent); font-weight: 900; }
+    .response pre { margin: 0; color: var(--muted); white-space: pre-wrap; font: 11px/1.8 var(--mono); }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 17px; }
+    .chip { display: inline-flex; padding: 6px 9px; align-items: center; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); background: var(--surface-2); font: 10px var(--mono); }
+    .quick-facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: light-dark(rgba(255,255,255,.45), rgba(16,27,40,.4)); }
+    .facts-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .fact { display: flex; min-height: 95px; align-items: center; gap: 14px; padding: 20px 25px; border-right: 1px solid var(--line); }
+    .fact:first-child { padding-left: 0; }
+    .fact:last-child { border-right: 0; }
+    .fact-icon { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border: 1px solid var(--line); border-radius: 12px; color: var(--accent); background: var(--surface); font-family: var(--mono); font-size: 12px; font-weight: 800; }
+    .fact strong { display: block; font-size: 13px; letter-spacing: -.02em; }
+    .fact small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+
+    .path-section { padding: 43px 0 47px; border-bottom: 1px solid var(--line); background: light-dark(#f9fafc, #0d1724); }
+    .path-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 28px; }
+    .path-heading h2 { margin-top: 9px; }
+    .path-heading p { max-width: 500px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.85; }
+    .path-grid { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .path-grid::before { position: absolute; content: ""; top: 16px; left: 16px; right: 16px; height: 1px; background: var(--line); }
+    .path-step { position: relative; padding: 0 28px 0 0; }
+    .path-step:not(:first-child) { padding-left: 27px; border-left: 1px solid var(--line); }
+    .path-number { position: relative; z-index: 1; display: grid; width: 33px; height: 33px; place-items: center; margin-bottom: 16px; border: 1px solid var(--accent); border-radius: 50%; background: var(--bg); color: var(--accent); font: 10px var(--mono); }
+    .path-title { font-size: 14px; font-weight: 800; letter-spacing: -.025em; }
+    .path-step p { max-width: 300px; margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr); min-height: 340px; border-color: light-dark(#c5cffa, #333d65); }
+    .project-card.featured .project-visual { position: relative; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; min-height: 100%; padding: 25px; background: radial-gradient(circle at 10% 90%, light-dark(rgba(36,78,216,.12), rgba(166,183,255,.13)), transparent 50%), var(--surface-2); }
+    .project-card.featured .project-glyph { display: none; }
+    .project-card.featured .project-index { color: var(--accent); }
+    .arch-canvas { display: flex; flex: 1; min-height: 225px; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 16px 0 0; }
+    .arch-node { display: flex; min-width: 175px; flex-direction: column; gap: 3px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); box-shadow: 5px 5px 0 light-dark(rgba(36,78,216,.06), rgba(166,183,255,.05)); }
+    .arch-node small { color: var(--muted); font: 9px var(--mono); letter-spacing: .08em; }
+    .arch-node strong { font-size: 12px; letter-spacing: -.015em; }
+    .arch-node.data { border-color: light-dark(#e9c8b9, #634237); }
+    .arch-node.data strong { color: var(--warm); }
+    .arch-arrow { color: var(--accent); font-family: var(--mono); font-size: 16px; line-height: 1; }
+    .arch-split { display: flex; justify-content: center; align-items: stretch; gap: 9px; width: 100%; }
+    .arch-split .arch-node { min-width: 0; width: min(50%, 155px); }
+    .project-card.featured .project-body { padding: clamp(25px, 4vw, 40px); }
+    .project-status { display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin: 0 0 14px; padding: 6px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+    .project-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--warm); }
+    .project-card.featured .project-body h3 { max-width: 540px; font-size: clamp(25px, 3vw, 35px); }
+    .project-card.featured .project-body p { max-width: 620px; font-size: 13px; }
+    .project-card:nth-child(2) .project-glyph { border-radius: 28px; transform: rotate(-7deg); color: var(--accent); background: var(--accent-soft); border-color: var(--line); }
+    .project-card:nth-child(3) .project-glyph { border-radius: 50%; transform: rotate(7deg); color: var(--warm); background: light-dark(#fcf0e5, #392b22); border-color: light-dark(#eed1b6, #60432f); }
+
+    section.content-section { padding: 91px 0; }
+    .section-head { display: grid; grid-template-columns: .7fr 1.3fr; gap: 35px; align-items: end; margin-bottom: 36px; }
+    .section-kicker { color: var(--accent); font: 11px var(--mono); letter-spacing: .13em; font-weight: 800; text-transform: uppercase; }
+    h2 { margin: 9px 0 0; font-size: clamp(30px, 3.5vw, 43px); letter-spacing: -.06em; line-height: 1.1; }
+    .section-intro { max-width: 650px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.85; }
+    .about-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: 20px; }
+    .about-aside, .about-main { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .about-aside { padding: 27px; }
+    .big-number { color: var(--accent); font: 700 46px/1 var(--mono); letter-spacing: -.08em; }
+    .aside-label { max-width: 220px; margin-top: 12px; color: var(--muted); font-size: 13px; }
+    .mini-divider { height: 1px; margin: 25px 0; background: var(--line); }
+    .focus-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .about-main { padding: 31px; }
+    .about-main p { margin: 0 0 16px; color: var(--muted); font-size: 14px; line-height: 1.95; }
+    .about-main p:last-child { margin-bottom: 0; }
+    .about-main strong { color: var(--text); }
+    .timeline { display: grid; gap: 15px; }
+    .timeline-item { display: grid; grid-template-columns: 180px 1fr; gap: 25px; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .timeline-date { color: var(--accent); font: 11px/1.8 var(--mono); letter-spacing: .02em; }
+    .timeline-date span { display: block; margin-top: 6px; color: var(--muted); font: 11px/1.7 ui-sans-serif, system-ui, sans-serif; }
+    .entry-top { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
+    .entry-top h3 { margin: 0; font-size: 19px; line-height: 1.35; letter-spacing: -.035em; }
+    .entry-org { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .entry-type { flex: 0 0 auto; padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); font: 10px var(--mono); }
+    .entry-list { display: grid; gap: 8px; margin: 16px 0 0; padding-left: 17px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .entry-list li::marker { color: var(--accent); }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .project-card { display: flex; min-height: 100%; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: transform .22s ease, border-color .22s ease; }
+    .project-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .project-visual { display: flex; min-height: 175px; align-items: center; justify-content: space-between; gap: 15px; padding: 25px 27px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+    .project-index { align-self: start; color: var(--muted); font: 11px var(--mono); }
+    .project-glyph { display: grid; width: 98px; height: 98px; place-items: center; border: 1px solid light-dark(#c7d0f8, #343f69); border-radius: 28px; color: var(--accent); background: var(--accent-soft); transform: rotate(-7deg); font: 800 32px var(--mono); box-shadow: 12px 12px 0 light-dark(rgba(36,78,216,.04), rgba(166,183,255,.04)); }
+    .project-card:nth-child(2) .project-glyph { border-radius: 50%; transform: rotate(7deg); color: var(--warm); background: light-dark(#fcf0e5, #392b22); border-color: light-dark(#eed1b6, #60432f); }
+    .project-body { display: flex; flex: 1; flex-direction: column; padding: 25px 27px 27px; }
+    .project-label { color: var(--accent); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .project-body h3 { margin: 10px 0 10px; font-size: 23px; letter-spacing: -.045em; line-height: 1.2; }
+    .project-body p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.85; }
+    .project-points { display: grid; gap: 8px; margin: 17px 0 21px; padding: 0; list-style: none; color: var(--muted); font-size: 12px; }
+    .project-points li { display: flex; gap: 9px; align-items: start; }
+    .project-points li::before { content: "↗"; color: var(--accent); font-family: var(--mono); }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 17px; border-top: 1px solid var(--line); }
+    .skill-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .skill-card { padding: 23px 25px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+    .skill-title { display: flex; align-items: center; gap: 10px; margin-bottom: 17px; font-weight: 760; font-size: 13px; }
+    .skill-number { color: var(--accent); font: 11px var(--mono); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .education-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .education-card { padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .education-year { color: var(--accent); font: 11px var(--mono); }
+    .education-card h3 { margin: 13px 0 7px; font-size: 18px; letter-spacing: -.03em; }
+    .education-card .degree { color: var(--text); font-size: 13px; }
+    .education-card p { margin: 13px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .language-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .language-card { padding: 21px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .language-card strong { display: block; font-size: 14px; }
+    .language-card span { display: block; margin-top: 6px; color: var(--muted); font-size: 11px; }
+    .contact-section { padding: 30px 0 90px; }
+    .contact-panel { position: relative; display: grid; grid-template-columns: 1.25fr .75fr; gap: 35px; padding: clamp(28px, 5vw, 52px); overflow: hidden; border: 1px solid light-dark(#c5cff6, #333e67); border-radius: 28px; background: var(--accent-soft); }
+    .contact-panel::after { content: ""; position: absolute; width: 300px; height: 300px; right: -90px; bottom: -180px; border: 1px solid light-dark(#c5cff6, #333e67); border-radius: 50%; box-shadow: 0 0 0 28px light-dark(rgba(36,78,216,.025), rgba(166,183,255,.025)), 0 0 0 57px light-dark(rgba(36,78,216,.02), rgba(166,183,255,.02)); pointer-events: none; }
+    .contact-panel h2 { max-width: 550px; margin: 12px 0 13px; }
+    .contact-panel p { max-width: 535px; color: var(--muted); font-size: 13px; line-height: 1.9; }
+    .contact-details { display: flex; flex-direction: column; justify-content: center; gap: 11px; z-index: 1; }
+    .contact-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 15px; border: 1px solid light-dark(#cbd4f7, #394570); border-radius: 12px; background: light-dark(rgba(255,255,255,.65), rgba(9,17,28,.28)); font-size: 12px; font-weight: 720; overflow-wrap: anywhere; }
+    .contact-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 500; }
+    .contact-link .arr { color: var(--accent); font-size: 18px; flex: 0 0 auto; }
+    footer { padding: 22px 0 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    @media (max-width: 850px) {
+      .nav-right { gap: 12px; }
+      .nav-links { gap: 13px; }
+      .nav-links a { font-size: 11px; }
+      .hero-grid { gap: 30px; grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr); }
+      .fact { padding-inline: 15px; }
+      .section-head { grid-template-columns: 1fr; gap: 16px; }
+      .path-heading { align-items: start; flex-direction: column; gap: 13px; }
+    }
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 32px, 540px); }
+      .nav { min-height: 68px; }
+      .nav-right { gap: 9px; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: 68px; left: 16px; right: 16px; padding: 16px; flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 11px 8px; border-bottom: 1px solid var(--line); font-size: 13px; }
+      .nav-links a:last-child { border-bottom: 0; }
+      .hero { padding: 57px 0 46px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 37px; }
+      h1 { font-size: clamp(43px, 12vw, 64px); }
+      .hero-copy { font-size: 15px; }
+      .code-card { transform: none; }
+      .facts-grid { grid-template-columns: 1fr; }
+      .fact, .fact:first-child { min-height: 76px; padding: 13px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .fact:last-child { border-bottom: 0; }
+      section.content-section { padding: 65px 0; }
+      .about-grid, .projects-grid, .skill-layout, .education-grid, .language-row, .contact-panel { grid-template-columns: 1fr; }
+      .path-grid { grid-template-columns: 1fr; gap: 22px; }
+      .path-grid::before { top: 16px; bottom: 15px; left: 16px; right: auto; width: 1px; height: auto; }
+      .path-step, .path-step:not(:first-child) { padding: 0 0 0 48px; border-left: 0; }
+      .path-number { position: absolute; left: 0; top: 0; margin: 0; background: var(--bg); }
+      .path-step p { max-width: none; }
+      .project-card.featured { grid-column: auto; grid-template-columns: 1fr; }
+      .project-card.featured .project-visual { min-height: 260px; }
+      .arch-canvas { min-height: 205px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 13px; padding: 22px; }
+      .entry-top { flex-direction: column; gap: 10px; }
+      .project-visual { min-height: 142px; }
+      .contact-section { padding-bottom: 65px; }
+      .contact-panel { gap: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Ganga Sunil, home">
+        <span class="brand-mark">GS.</span><span class="brand-name">Ganga Sunil<span style="color:var(--accent)">.</span></span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+          <a href="#about" data-nav="about">About</a><a href="#experience" data-nav="experience">Experience</a><a href="#projects" data-nav="projects">Projects</a><a href="#skills" data-nav="skills">Skills</a><a href="#education" data-nav="education">Education</a><a href="#contact" data-nav="contact">Contact</a>
+        </nav>
+        <div class="lang-switch" aria-label="Choose language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button>
+        </div>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Open navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow"><span class="pulse"></span><span data-t="heroEyebrow">JAVA BACKEND ENGINEER · WEIMAR, GERMANY</span></div>
+          <h1 data-t="heroTitle">Java Backend<br><span class="accent">Developer</span><br>Spring Boot · APIs · SQL</h1>
+          <p class="hero-copy" data-t="heroCopy">I develop backend features with Java and Spring Boot, including REST APIs, database integration, debugging and tests. After two years at Infosys, I’m deepening my software engineering skills through the M.Sc. Digital Engineering programme at Bauhaus-Universität Weimar. My current project is an e-commerce platform built with Spring Boot microservices, PostgreSQL and Docker.</p>
+          <div class="cta-row"><a class="button primary" href="#projects"><span data-t="heroCta1">Explore my work</span><span class="arrow">↘</span></a><a class="button" href="#contact"><span data-t="heroCta2">Let's connect</span><span class="arrow">↗</span></a></div>
+          <div class="hero-note"><span>✳</span><span data-t="heroNote">Open to backend engineering opportunities in Germany</span></div>
+        </div>
+        <aside class="code-card" aria-label="Illustrative backend code panel">
+          <div class="window-bar"><div class="window-dots"><i></i><i></i><i></i></div><div class="window-label">commerce-build.java</div></div>
+          <div class="code-body" aria-hidden="true">
+            <div class="code-line"><span class="ln">01</span><span><span class="syntax-key">class</span> <span class="syntax-green">CommerceService</span> {</span></div>
+            <div class="code-line"><span class="ln">02</span><span>&nbsp;&nbsp;<span class="syntax-key">String</span> runtime = <span class="syntax-blue">"Docker"</span>;</span></div>
+            <div class="code-line"><span class="ln">03</span><span>&nbsp;&nbsp;<span class="syntax-key">String</span> data = <span class="syntax-blue">"PostgreSQL"</span>;</span></div>
+            <div class="code-line"><span class="ln">04</span><span>&nbsp;&nbsp;<span class="syntax-key">String</span> approach = <span class="syntax-blue">"learn by building"</span>;</span></div>
+            <div class="code-line"><span class="ln">05</span><span>}</span></div>
+          </div>
+          <div class="response"><div class="response-top"><span class="syntax-muted">CURRENT BUILD</span><span class="status">IN PROGRESS</span></div><pre>{
+  "architecture": "microservices",
+  "database": "PostgreSQL",
+  "runtime": "Docker"
+}</pre></div>
+          <div class="stack-row"><span class="chip">JAVA</span><span class="chip">MICROSERVICES</span><span class="chip">DOCKER</span><span class="chip">DEVOPS</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="quick-facts"><div class="wrap facts-grid">
+      <div class="fact"><span class="fact-icon">01</span><div><strong data-t="fact1Title">2 years in software</strong><small data-t="fact1Sub">Systems Engineer · Infosys</small></div></div>
+      <div class="fact"><span class="fact-icon">MSc</span><div><strong data-t="fact2Title">Digital Engineering</strong><small data-t="fact2Sub">Bauhaus-Universität Weimar · ongoing</small></div></div>
+      <div class="fact"><span class="fact-icon">DE</span><div><strong data-t="fact3Title">Based in Weimar</strong><small data-t="fact3Sub">Germany · English & German</small></div></div>
+    </div></div>
+
+    <section class="path-section" id="path"><div class="wrap">
+      <div class="path-heading"><div><div class="section-kicker" data-t="pathKicker">CURRENT TECHNICAL FOCUS</div><h2 data-t="pathTitle">Backend development<br>in practice.</h2></div><p data-t="pathIntro">My focus is Java backend development: building API endpoints, working with relational data, and applying microservices and containerisation in my current project.</p></div>
+      <div class="path-grid">
+        <article class="path-step"><span class="path-number">01</span><div class="path-title" data-t="pathStep1Title">Backend services</div><p data-t="pathStep1Copy">I work across the Java and Spring Boot service layer, from REST endpoints to debugging and unit tests that support maintainable changes.</p></article>
+        <article class="path-step"><span class="path-number">02</span><div class="path-title" data-t="pathStep2Title">Data and persistence</div><p data-t="pathStep2Copy">At Infosys, I worked with MySQL and SQL query optimisation. In my current e-commerce project, I’m working with PostgreSQL and relational data.</p></article>
+        <article class="path-step"><span class="path-number">03</span><div class="path-title" data-t="pathStep3Title">Microservices and delivery</div><p data-t="pathStep3Copy">I’m building an e-commerce backend with Spring Boot microservices and Docker, while incorporating DevOps workflows into the development process.</p></article>
+      </div>
+    </div></section>
+
+    <section class="content-section" id="about"><div class="wrap">
+      <div class="section-head"><div><div class="section-kicker" data-t="aboutKicker">01 / PROFESSIONAL PROFILE</div><h2 data-t="aboutTitle">Java backend development<br>from API to database.</h2></div><p class="section-intro" data-t="aboutIntro">My experience includes Java and Spring Boot services, REST APIs, MySQL integration, SQL optimisation, debugging, unit testing and code reviews. My studies and current project are extending that foundation into microservices and containerised development.</p></div>
+      <div class="about-grid">
+        <aside class="about-aside"><div class="big-number">Java<span style="color:var(--warm)">.</span></div><div class="aside-label" data-t="aboutAside">Java backend development, REST APIs, relational databases and software quality.</div><div class="mini-divider"></div><div class="focus-list"><span class="chip">API DESIGN</span><span class="chip">SQL</span><span class="chip">OOP</span><span class="chip">TESTING</span><span class="chip">TEAMWORK</span></div></aside>
+        <div class="about-main"><p data-t="aboutP1"><strong>Professional experience:</strong> At Infosys, I developed and maintained Java/Spring Boot services, integrated MySQL, optimised SQL queries, and contributed to testing and code reviews.</p><p data-t="aboutP2"><strong>Current studies:</strong> My M.Sc. at Bauhaus-Universität Weimar builds on my software engineering foundations, including algorithms and object-oriented programming.</p><p data-t="aboutP3"><strong>University role:</strong> As a student assistant, I assess work in Optimization and Stochastics and help students work through analytical problems.</p></div>
+      </div>
+    </div></section>
+
+    <section class="content-section" id="experience" style="background:var(--surface-2); border-block:1px solid var(--line)"><div class="wrap">
+      <div class="section-head"><div><div class="section-kicker" data-t="expKicker">02 / EXPERIENCE</div><h2 data-t="expTitle">Professional experience<br>and academic work.</h2></div><p class="section-intro" data-t="expIntro">Enterprise backend development at Infosys, alongside a university role focused on analytical problem-solving and student support.</p></div>
+      <div class="timeline" id="experienceList"></div>
+    </div></section>
+
+    <section class="content-section" id="projects"><div class="wrap">
+      <div class="section-head"><div><div class="section-kicker" data-t="projKicker">03 / PROJECTS</div><h2 data-t="projTitle">Selected development work.</h2></div><p class="section-intro" data-t="projIntro">A current e-commerce build and two Java projects covering backend workflows, relational data, authentication and network communication.</p></div>
+      <div class="projects-grid" id="projectsList"></div>
+    </div></section>
+
+    <section class="content-section" id="skills" style="background:var(--surface-2); border-block:1px solid var(--line)"><div class="wrap">
+      <div class="section-head"><div><div class="section-kicker" data-t="skillsKicker">04 / TECHNICAL SKILLS</div><h2 data-t="skillsTitle">Technologies and methods.</h2></div><p class="section-intro" data-t="skillsIntro">My professional foundation is Java backend development and relational databases. Microservices, Docker and DevOps workflows are technologies I’m currently applying in my e-commerce project.</p></div>
+      <div class="skill-layout" id="skillsList"></div>
+    </div></section>
+
+    <section class="content-section" id="education"><div class="wrap">
+      <div class="section-head"><div><div class="section-kicker" data-t="eduKicker">05 / EDUCATION</div><h2 data-t="eduTitle">Education.</h2></div><p class="section-intro" data-t="eduIntro">Postgraduate study in Digital Engineering, building on an undergraduate degree in Civil Engineering.</p></div>
+      <div class="education-grid" id="educationList"></div>
+      <div style="margin-top:36px"><div class="section-kicker" style="margin-bottom:15px" data-t="langKicker">LANGUAGES</div><div class="language-row" id="languagesList"></div></div>
+    </div></section>
+
+    <section class="contact-section" id="contact"><div class="wrap"><div class="contact-panel">
+      <div><div class="section-kicker" data-t="contactKicker">06 / CONTACT</div><h2 data-t="contactTitle">Open to Java backend opportunities.</h2><p data-t="contactCopy">I’m interested in backend roles where I can contribute experience with Java, Spring Boot and relational databases while developing further in microservices and containerised applications. I’m based in Weimar and interested in opportunities in Germany.</p><div class="cta-row"><a class="button primary" href="mailto:gangas2501@gmail.com"><span data-t="contactCta">Email me</span><span class="arrow">↗</span></a></div></div>
+      <div class="contact-details"><a class="contact-link" href="mailto:gangas2501@gmail.com"><span><small data-t="emailLabel">EMAIL</small>gangas2501@gmail.com</span><span class="arr">↗</span></a><div class="contact-link"><span><small data-t="locationLabel">BASED IN</small>Weimar, Germany</span><span class="arr">⌖</span></div><a class="contact-link" href="#projects"><span><small data-t="profilesLabel">CURRENT FOCUS</small><span data-t="profilesNote">An e-commerce backend in progress</span></span><span class="arr">↘</span></a></div>
+    </div></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>© <span id="year">2026</span> Ganga Sunil</span><span data-t="footerNote">Java Backend Developer · Weimar, Germany</span><a href="#home" data-t="backTop">Back to top ↑</a></div></footer>
+</div>
+<script>
+  const portfolioContent = {
+    en: {
+      pageTitle: "Ganga Sunil — Java Backend Developer",
+      heroEyebrow: "JAVA BACKEND DEVELOPER · WEIMAR, GERMANY",
+      heroTitle: 'Java Backend<br><span class="accent">Developer</span><br>Spring Boot · APIs · SQL',
+      heroCopy: "I develop backend features with Java and Spring Boot, including REST APIs, database integration, debugging and tests. After two years at Infosys, I’m deepening my software engineering skills through the M.Sc. Digital Engineering programme at Bauhaus-Universität Weimar. My current project is an e-commerce platform built with Spring Boot microservices, PostgreSQL and Docker.",
+      heroCta1: "View projects", heroCta2: "Contact me", heroNote: "Open to Java backend opportunities in Germany",
+      nav: { about: "About", experience: "Experience", projects: "Projects", skills: "Skills", education: "Education", contact: "Contact" },
+      pathKicker: "CURRENT TECHNICAL FOCUS", pathTitle: "Backend development<br>in practice.", pathIntro: "My focus is Java backend development: building API endpoints, working with relational data, and applying microservices and containerisation in my current project.", pathStep1Title: "Backend services", pathStep1Copy: "I work across the Java and Spring Boot service layer, from REST endpoints to debugging and unit tests that support maintainable changes.", pathStep2Title: "Data and persistence", pathStep2Copy: "At Infosys, I worked with MySQL and SQL query optimisation. In my current e-commerce project, I’m working with PostgreSQL and relational data.", pathStep3Title: "Microservices and delivery", pathStep3Copy: "I’m building an e-commerce backend with Spring Boot microservices and Docker, while incorporating DevOps workflows into the development process.",
+      fact1Title: "2 years in backend development", fact1Sub: "Java · Spring Boot · Infosys", fact2Title: "M.Sc. Digital Engineering", fact2Sub: "Bauhaus-Universität Weimar · ongoing", fact3Title: "Based in Weimar", fact3Sub: "Germany · English, German & Malayalam",
+      aboutKicker: "01 / PROFESSIONAL PROFILE", aboutTitle: "Different starting point.<br>One systems mindset.", aboutIntro: "Switching from civil engineering to software wasn’t a complete reset. I was still asking a familiar question: how do the parts work together, and what breaks when one of them changes? In software, I get to explore that through services, APIs and data.", aboutAside: "I’m most at home where business logic, APIs and data meet.",
+      aboutP1: "<strong>Professional experience:</strong> At Infosys, I developed and maintained Java/Spring Boot services, integrated MySQL, optimised SQL queries, and contributed to testing and code reviews.",
+      aboutP2: "<strong>Current studies:</strong> My M.Sc. at Bauhaus-Universität Weimar builds on my software engineering foundations, including algorithms and object-oriented programming.",
+      aboutP3: "<strong>University role:</strong> As a student assistant, I assess work in Optimization and Stochastics and help students work through analytical problems.",
+      expKicker: "02 / EXPERIENCE", expTitle: "Professional experience<br>and academic work.", expIntro: "Enterprise backend development at Infosys, alongside a university role focused on analytical problem-solving and student support.",
+      experiences: [
+        { date: "OCT 2024 — PRESENT", dateSub: "Weimar, Germany", role: "Student Assistant (HiWi Tutor)", org: "Bauhaus-Universität Weimar", type: "UNIVERSITY", bullets: ["Review work in Optimization and Stochastics, with feedback students can use to improve their reasoning.", "Help students break difficult problems into smaller, clearer steps during tutorials."] },
+        { date: "JAN 2022 — JAN 2024", dateSub: "India", role: "Systems Engineer · Java Backend Developer", org: "Infosys Limited", type: "PROFESSIONAL", bullets: ["Worked on the service layer where application features meet business rules, using Java, Spring Boot and REST endpoints.", "Connected services to MySQL and refined SQL queries when performance needed attention.", "Used debugging, unit tests, reviews and CI/CD workflows to make changes safer and easier to maintain.", "Shared delivery work with cross-functional teams in an Agile Scrum setup."] }
+      ],
+      projKicker: "03 / PROJECTS", projTitle: "Less talk.<br>Things that run.", projIntro: "One project is a live learning build; the others show how I approach APIs, data, concurrency and the shape of a Java application.",
+      projects: [
+        { featured: true, index: "CURRENT PROJECT", glyph: "↗", label: "IN PROGRESS · E-COMMERCE PLATFORM", title: "E-commerce Platform", desc: "A work-in-progress e-commerce platform focused on a microservices-based backend. The current stack includes Java, Spring Boot, PostgreSQL and Docker, with DevOps workflows being developed alongside the application.", points: ["Separating application responsibilities with Spring Boot microservices.", "Using PostgreSQL for relational data and persistence.", "Working with Docker and DevOps workflows in the development setup."], tags: ["Java", "Spring Boot", "Microservices", "PostgreSQL", "Docker", "DevOps"] },
+        { index: "PROJECT / 01", glyph: "B+", label: "BACKEND · MANAGEMENT", title: "Bobby School Management System", desc: "A modular school management backend built around the needs of students, teachers, parents, and administrators.", points: ["Designed RESTful APIs and relational data models.", "Implemented role-based authentication for different user groups.", "Applied version control, testing practices, and technical documentation."], tags: ["Java", "Spring Boot", "MySQL", "REST APIs", "Git"] },
+        { index: "PROJECT / 02", glyph: "<> ", label: "DESKTOP · COMMUNICATION", title: "Holla Chat Application", desc: "A Java desktop chat application for authenticated users to communicate privately or in groups.", points: ["Built private messaging and group communication features.", "Used socket programming and multithreading.", "Applied object-oriented design principles in a Java Swing application."], tags: ["Java", "Java Swing", "Sockets", "Multithreading", "OOP"] }
+      ],
+      skillsKicker: "04 / TECHNICAL SKILLS", skillsTitle: "My toolkit, in layers.", skillsIntro: "The foundations I’ve used professionally, alongside the tools I’m putting into practice as I build beyond a single backend service.",
+      skills: [
+        { title: "Programming", items: ["Java"] },
+        { title: "Frameworks & APIs", items: ["Spring Boot", "J2EE", "RESTful APIs"] },
+        { title: "Databases", items: ["MySQL", "PostgreSQL", "SQL query optimization"] },
+        { title: "Engineering & Workflow", items: ["Object-Oriented Programming", "Data Structures & Algorithms", "Unit Testing", "Software Design", "CI/CD", "Agile Scrum"] },
+        { title: "Developer Tools", items: ["Git", "GitHub", "GitLab", "Maven", "IntelliJ IDEA", "Visual Studio Code"] },
+        { title: "In my current build", items: ["Microservices", "Docker", "DevOps workflows", "PostgreSQL"] }
+      ],
+      eduKicker: "05 / EDUCATION", eduTitle: "Education.", eduIntro: "Postgraduate study in Digital Engineering, building on an undergraduate degree in Civil Engineering.",
+      education: [
+        { year: "APR 2024 — PRESENT", institution: "Bauhaus-Universität Weimar", degree: "M.Sc. Digital Engineering", desc: "Relevant coursework: Software Engineering, Data Structures & Algorithms, Object-Oriented Programming.", location: "Weimar, Germany" },
+        { year: "2017 — 2021", institution: "NSS College of Engineering", degree: "B.Tech (Hons.) Civil Engineering", desc: "Undergraduate engineering degree.", location: "India" }
+      ],
+      langKicker: "LANGUAGES", languages: [{name:"English", level:"Professional working proficiency"},{name:"German",level:"B1 completed · currently learning B2"},{name:"Malayalam",level:"Native"}],
+      contactKicker: "06 / CONTACT", contactTitle: "Open to Java backend opportunities.", contactCopy: "I’m interested in backend roles where I can contribute experience with Java, Spring Boot and relational databases while developing further in microservices and containerised applications. I’m based in Weimar and interested in opportunities in Germany.", contactCta: "Contact me", emailLabel: "EMAIL", locationLabel: "BASED IN", profilesLabel: "CURRENT FOCUS", profilesNote: "E-commerce platform in progress", footerNote: "Java Backend Developer · Weimar, Germany", backTop: "Back to top ↑"
+    },
+    de: {
+      pageTitle: "Ganga Sunil — Java Backend Developer",
+      heroEyebrow: "JAVA BACKEND DEVELOPER · WEIMAR, DEUTSCHLAND",
+      heroTitle: 'Java-Backend-<br><span class="accent">Entwickler</span><br>Spring Boot · APIs · SQL',
+      heroCopy: "Ich entwickle Backend-Funktionen mit Java und Spring Boot – von REST APIs und Datenbankanbindung bis zu Debugging und Tests. Nach zwei Jahren bei Infosys vertiefe ich meine Software-Engineering-Kenntnisse im Masterstudiengang Digital Engineering an der Bauhaus-Universität Weimar. Aktuell arbeite ich an einer E-Commerce-Plattform mit Spring-Boot-Microservices, PostgreSQL und Docker.",
+      heroCta1: "Projekte ansehen", heroCta2: "Kontakt aufnehmen", heroNote: "Offen für Java-Backend-Positionen in Deutschland",
+      nav: { about: "Profil", experience: "Erfahrung", projects: "Projekte", skills: "Kenntnisse", education: "Ausbildung", contact: "Kontakt" },
+      pathKicker: "AKTUELLER TECHNISCHER FOKUS", pathTitle: "Backend-Entwicklung<br>in der Praxis.", pathIntro: "Mein Fokus liegt auf Java-Backend-Entwicklung: REST-Endpunkte erstellen, mit relationalen Daten arbeiten und Microservices sowie Containerisierung im aktuellen Projekt einsetzen.", pathStep1Title: "Backend-Services", pathStep1Copy: "Java, Spring Boot und REST APIs – ergänzt durch Erfahrung mit Wartung, Debugging und Unit-Tests.", pathStep2Title: "Daten und Persistenz", pathStep2Copy: "Bei Infosys habe ich mit MySQL und der Optimierung von SQL-Abfragen gearbeitet. In meinem aktuellen E-Commerce-Projekt nutze ich PostgreSQL und relationale Datenmodelle.", pathStep3Title: "Microservices und Bereitstellung", pathStep3Copy: "Ich entwickle ein E-Commerce-Backend mit Spring-Boot-Microservices und Docker und integriere DevOps-Workflows in den Entwicklungsprozess.",
+      fact1Title: "Zwei Jahre Backend-Entwicklung", fact1Sub: "Java · Spring Boot · Infosys", fact2Title: "M.Sc. Digital Engineering", fact2Sub: "Bauhaus-Universität Weimar · laufend", fact3Title: "Standort Weimar", fact3Sub: "Deutschland · Englisch, Deutsch & Malayalam",
+      aboutKicker: "01 / BERUFLICHES PROFIL", aboutTitle: "Java-Backend-Entwicklung<br>von API bis Datenbank.", aboutIntro: "Meine Erfahrung umfasst Java- und Spring-Boot-Services, REST APIs, MySQL-Anbindung, SQL-Optimierung, Debugging, Unit-Tests und Code Reviews. Im Masterstudium und mit meinem aktuellen Projekt erweitere ich diese Grundlage um Microservices und containerisierte Entwicklung.", aboutAside: "Java-Backend-Entwicklung, REST APIs, relationale Datenbanken und Softwarequalität.",
+      aboutP1: "<strong>Berufserfahrung:</strong> Bei Infosys entwickelte und wartete ich Java-/Spring-Boot-Services, integrierte MySQL, optimierte SQL-Abfragen und wirkte an Tests und Code Reviews mit.",
+      aboutP2: "<strong>Aktuelles Studium:</strong> Mein M.Sc. an der Bauhaus-Universität Weimar vertieft meine Kenntnisse im Software Engineering, darunter Algorithmen und objektorientierte Programmierung.",
+      aboutP3: "<strong>Tätigkeit an der Universität:</strong> Als studentische Hilfskraft bewerte ich Aufgaben aus Optimierung und Stochastik und unterstütze Studierende bei analytischen Fragestellungen.",
+      expKicker: "02 / ERFAHRUNG", expTitle: "Berufserfahrung<br>und akademische Arbeit.", expIntro: "Berufliche Erfahrung in der Backend-Entwicklung bei Infosys, ergänzt durch eine Tätigkeit an der Universität mit Schwerpunkt auf analytischer Problemlösung und studentischer Unterstützung.",
+      experiences: [
+        { date: "OKT. 2024 — HEUTE", dateSub: "Weimar, Deutschland", role: "Studentische Hilfskraft (Tutor)", org: "Bauhaus-Universität Weimar", type: "UNIVERSITÄT", bullets: ["Aufgaben aus Optimierung und Stochastik bewerten und Feedback geben, mit dem Studierende ihre Lösungswege verbessern können.", "Studierenden helfen, schwierige Aufgaben im Tutorium in überschaubare Schritte zu zerlegen."] },
+        { date: "JAN. 2022 — JAN. 2024", dateSub: "Indien", role: "Systems Engineer · Java Backend Developer", org: "Infosys Limited", type: "BERUFSERFAHRUNG", bullets: ["An der Serviceschicht gearbeitet, in der Anwendungsfunktionen auf Geschäftslogik treffen – mit Java, Spring Boot und REST-Endpunkten.", "Services an MySQL angebunden und SQL-Abfragen optimiert, wenn die Performance Aufmerksamkeit brauchte.", "Debugging, Unit-Tests, Reviews und CI/CD-Workflows genutzt, um Änderungen sicherer und wartbarer zu machen.", "Die Softwareauslieferung gemeinsam mit verschiedenen Teams im agilen Scrum-Umfeld unterstützt."] }
+      ],
+      projKicker: "03 / PROJEKTE", projTitle: "Ausgewählte Entwicklungsprojekte.", projIntro: "Ein aktuelles E-Commerce-Projekt und zwei Java-Anwendungen mit Schwerpunkten auf Backend-Abläufen, relationalen Daten, Authentifizierung und Netzwerkkommunikation.",
+      projects: [
+        { featured: true, index: "AKTUELLES PROJEKT", glyph: "↗", label: "IN ARBEIT · E-COMMERCE-PLATTFORM", title: "E-Commerce-Plattform", desc: "Eine E-Commerce-Plattform in Entwicklung mit Fokus auf ein Microservices-basiertes Backend. Zum aktuellen Stack gehören Java, Spring Boot, PostgreSQL und Docker; DevOps-Workflows werden parallel zur Anwendung weiterentwickelt.", points: ["Anwendungsaufgaben mit Spring-Boot-Microservices trennen.", "PostgreSQL für relationale Daten und Persistenz einsetzen.", "Docker und DevOps-Workflows in der Entwicklungsumgebung nutzen."], tags: ["Java", "Spring Boot", "Microservices", "PostgreSQL", "Docker", "DevOps"] },
+        { index: "PROJEKT / 01", glyph: "B+", label: "BACKEND · VERWALTUNG", title: "Bobby School Management System", desc: "Ein modular aufgebautes Backend für eine Schulverwaltung mit Funktionen für Schüler, Lehrkräfte, Eltern und Administratoren.", points: ["RESTful APIs und relationale Datenmodelle entworfen.", "Rollenbasierte Authentifizierung für verschiedene Nutzergruppen umgesetzt.", "Versionsverwaltung, Softwaretests und technische Dokumentation eingesetzt."], tags: ["Java", "Spring Boot", "MySQL", "REST APIs", "Git"] },
+        { index: "PROJEKT / 02", glyph: "<> ", label: "DESKTOP · KOMMUNIKATION", title: "Holla Chat Application", desc: "Eine Java-Desktop-Chat-Anwendung, mit der sich angemeldete Nutzer privat oder in Gruppen austauschen können.", points: ["Private Nachrichten und Gruppenkommunikation umgesetzt.", "Socket-Programmierung und Multithreading eingesetzt.", "Prinzipien der objektorientierten Programmierung in einer Java-Swing-Anwendung angewendet."], tags: ["Java", "Java Swing", "Sockets", "Multithreading", "OOP"] }
+      ],
+      skillsKicker: "04 / TECHNISCHE KENNTNISSE", skillsTitle: "Technologien und Methoden.", skillsIntro: "Meine berufliche Grundlage ist Java-Backend-Entwicklung und der Umgang mit relationalen Datenbanken. Microservices, Docker und DevOps-Workflows setze ich derzeit in meinem E-Commerce-Projekt ein.",
+      skills: [
+        { title: "Programmierung", items: ["Java"] },
+        { title: "Frameworks & APIs", items: ["Spring Boot", "J2EE", "RESTful APIs"] },
+        { title: "Datenbanken", items: ["MySQL", "PostgreSQL", "SQL-Abfrageoptimierung"] },
+        { title: "Software Engineering & Methoden", items: ["Objektorientierte Programmierung", "Datenstrukturen & Algorithmen", "Unit-Tests", "Softwaredesign", "CI/CD", "Agile Scrum"] },
+        { title: "Entwicklungswerkzeuge", items: ["Git", "GitHub", "GitLab", "Maven", "IntelliJ IDEA", "Visual Studio Code"] },
+        { title: "Im aktuellen Projekt", items: ["Microservices", "Docker", "DevOps-Workflows", "PostgreSQL"] }
+      ],
+      eduKicker: "05 / AUSBILDUNG", eduTitle: "Ausbildung.", eduIntro: "Masterstudium in Digital Engineering aufbauend auf einem Bachelorabschluss im Bauingenieurwesen.",
+      education: [
+        { year: "APR. 2024 — HEUTE", institution: "Bauhaus-Universität Weimar", degree: "M.Sc. Digital Engineering", desc: "Relevante Lehrveranstaltungen: Software Engineering, Datenstrukturen und Algorithmen, objektorientierte Programmierung.", location: "Weimar, Deutschland" },
+        { year: "2017 — 2021", institution: "NSS College of Engineering", degree: "B.Tech (Hons.) Civil Engineering", desc: "Bachelorabschluss im Bauingenieurwesen.", location: "Indien" }
+      ],
+      langKicker: "SPRACHEN", languages: [{name:"Englisch",level:"Berufliche Sprachkenntnisse"},{name:"Deutsch",level:"B1 abgeschlossen · B2 in Arbeit"},{name:"Malayalam",level:"Muttersprache"}],
+      contactKicker: "06 / KONTAKT", contactTitle: "Offen für Java-Backend-Positionen.", contactCopy: "Ich interessiere mich für Backend-Positionen, in denen ich meine Erfahrung mit Java, Spring Boot und relationalen Datenbanken einbringen und mich in Microservices und containerisierten Anwendungen weiterentwickeln kann. Ich lebe in Weimar und suche berufliche Möglichkeiten in Deutschland.", contactCta: "Kontakt aufnehmen", emailLabel: "E-MAIL", locationLabel: "STANDORT", profilesLabel: "AKTUELLER FOKUS", profilesNote: "E-Commerce-Plattform in Entwicklung", footerNote: "Java Backend Developer · Weimar, Deutschland", backTop: "Nach oben ↑"
+    }
+  };
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  function renderExperience(items) {
+    $('#experienceList').innerHTML = items.map(item => `
+      <article class="timeline-item">
+        <div class="timeline-date">${item.date}<span>${item.dateSub}</span></div>
+        <div><div class="entry-top"><div><h3>${item.role}</h3><div class="entry-org">${item.org}</div></div><span class="entry-type">${item.type}</span></div>
+          <ul class="entry-list">${item.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+      </article>`).join('');
+  }
+  function renderProjects(items) {
+    $('#projectsList').innerHTML = items.map(item => {
+      const featured = Boolean(item.featured);
+      const visual = featured
+        ? `<div class="project-visual featured-visual"><span class="project-index">${item.index}</span><div class="arch-canvas" aria-label="Illustrative technology flow"><div class="arch-node"><small>APPLICATION</small><strong>Spring Boot</strong></div><span class="arch-arrow">↓</span><div class="arch-split"><div class="arch-node"><small>RUNTIME</small><strong>Docker</strong></div><div class="arch-node"><small>ARCHITECTURE</small><strong>Microservices</strong></div></div><span class="arch-arrow">↓</span><div class="arch-node data"><small>RELATIONAL DATA</small><strong>PostgreSQL</strong></div></div></div>`
+        : `<div class="project-visual"><span class="project-index">${item.index}</span><span class="project-glyph" aria-hidden="true">${item.glyph}</span></div>`;
+      return `<article class="project-card${featured ? ' featured' : ''}">
+        ${visual}
+        <div class="project-body">${featured ? `<div class="project-status">${item.label}</div>` : `<div class="project-label">${item.label}</div>`}<h3>${item.title}</h3><p>${item.desc}</p>
+          <ul class="project-points">${item.points.map(p => `<li>${p}</li>`).join('')}</ul>
+          <div class="project-tags">${item.tags.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+        </div>
+      </article>`;
+    }).join('');
+  }
+  function renderSkills(items) {
+    $('#skillsList').innerHTML = items.map((item, i) => `
+      <article class="skill-card"><div class="skill-title"><span class="skill-number">0${i + 1}</span>${item.title}</div><div class="skill-tags">${item.items.map(v => `<span class="chip">${v}</span>`).join('')}</div></article>`).join('');
+  }
+  function renderEducation(items) {
+    $('#educationList').innerHTML = items.map(item => `
+      <article class="education-card"><div class="education-year">${item.year}</div><h3>${item.institution}</h3><div class="degree">${item.degree}</div><p>${item.desc}<br>${item.location}</p></article>`).join('');
+  }
+  function renderLanguages(items) {
+    $('#languagesList').innerHTML = items.map(item => `<article class="language-card"><strong>${item.name}</strong><span>${item.level}</span></article>`).join('');
+  }
+  function setLanguage(lang) {
+    const data = portfolioContent[lang] || portfolioContent.en;
+    document.documentElement.lang = lang;
+    document.title = data.pageTitle;
+    $$('[data-t]').forEach(el => {
+      const key = el.dataset.t;
+      if (Object.prototype.hasOwnProperty.call(data, key)) el.innerHTML = data[key];
+    });
+    $$('[data-nav]').forEach(el => { el.textContent = data.nav[el.dataset.nav]; });
+    $$('[data-lang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.lang === lang)));
+    renderExperience(data.experiences);
+    renderProjects(data.projects);
+    renderSkills(data.skills);
+    renderEducation(data.education);
+    renderLanguages(data.languages);
+  }
+  const nav = $('#navLinks');
+  const menuToggle = $('#menuToggle');
+  function closeMenu() { nav.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open navigation'); }
+  menuToggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  });
+  $$('[data-lang]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.lang)));
+  $$('.nav-links a').forEach(a => a.addEventListener('click', closeMenu));
+  $('#year').textContent = new Date().getFullYear();
+  setLanguage('en');
+</script>
+</body>
+</html>
